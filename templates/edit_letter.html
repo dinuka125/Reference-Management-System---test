@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <title>Request Sucess</title>
+    <!-- MDB icon -->
+    <link rel="icon" href="/static/img/mdb-favicon.ico" type="image/x-icon" />
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <!-- Google Fonts Roboto -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap"
+    />
+    <!-- MDB -->
+    <link rel="stylesheet" href="/static/css/mdb.min.css" />
+
+    <style>
+      .texy {
+        white-space: pre-wrap;
+      }
+
+      .intro {
+  height: 100%;
+}
+
+.gradient-custom {
+  /* fallback for old browsers */
+  background: #fa709a;
+
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: -webkit-linear-gradient(to bottom right, rgba(250, 112, 154, 1), rgba(254, 225, 64, 1));
+
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: linear-gradient(to bottom right, rgba(250, 112, 154, 1), rgba(254, 225, 64, 1))
+}
+    </style>
+  </head>
+  <body>
+    <!-- Start your project here-->
+    <div class="container">
+  <!-- Content here -->
+  <section class="intro">
+    <div class="mask d-flex align-items-center h-100 gradient-custom">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-12 col-lg-9 col-xl-7">
+            <div class="card">
+              <div class="card-body p-10 p-md-10">
+                <center><h3 class="mb-2">Edit the letter</h3></center>
+                <script src="https://cdn.ckeditor.com/4.19.1/standard/ckeditor.js"></script>
+                
+                <form method="POST" action="{{ url_for('create_pdf') }}" enctype="multipart/form-data">
+                    <label>  </label> <br> 
+                  
+                    <textarea onkeyup='writeText(this)' class="texy" name="content" rows="5" cols="80">
+                    <pre>
+                        {{ letter }}
+                    </pre>
+                    </textarea>
+            
+
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="mt-4">
+                        <input class="btn btn-warning btn-lg" type="submit" value="Save & Submit" />
+                        </div>
+                    </div>
+                </div>         
+                </form>
+                 <script>
+                 CKEDITOR.replace('content');
+                </script>
+    
+               
+                
+                <!-- <form method="POST" action="{{ url_for('letter_to_whome_it') }}" enctype="multipart/form-data"> -->
+  
+                  <!-- <div class="row">
+
+                 
+                    <div class="form-outline">
+                        <textarea name = "text" class="form-control" id="textAreaExample2" rows="8"></textarea>
+                        <label class="form-label" for="textAreaExample2">Write a short summary about what you did at University</label>
+                    </div>
+        
+                                  
+                  <div class="row">
+                    <div class="col-12">
+                      <div class="mt-4">
+                        <input class="btn btn-warning btn-lg" type="submit" value="Submit" />
+                      </div>
+  
+                    </div> -->
+
+                    <!-- <div class="col-12">
+                      <div class="mt-4">
+                      {% with messages = get_flashed_messages() %}
+                          {% if messages %}
+  
+                            {% for message in messages %}
+                            <div class="alert alert-danger d-flex align-items-center" role="alert">
+                              <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+                              <div>
+                                <span> {{ message }}</span>
+                            </div>
+                            {% endfor %}  
+                          
+                          {% endif %}
+                        {% endwith %}  
+                      </div>  
+                    </div> -->
+
+                  </div>
+  
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  
+  
+    </div>
+    <!-- End your project here-->
+
+    <!-- MDB -->
+    <script type="text/javascript" src="/static/js/mdb.min.js"></script>
+    <!-- Custom scripts -->
+    <script type="text/javascript"></script>
+  </body>
+</html>

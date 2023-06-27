@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <title>Material Design for Bootstrap</title>
+    <!-- MDB icon -->
+    <link rel="icon" href="/static/img/mdb-favicon.ico" type="image/x-icon" />
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <!-- Google Fonts Roboto -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap"
+    />
+    <!-- MDB -->
+    <link rel="stylesheet" href="/static/css/mdb.min.css" />
+
+    <style>
+      .intro {
+  height: 100%;
+}
+
+.gradient-custom {
+  /* fallback for old browsers */
+  background: #fa709a;
+
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: -webkit-linear-gradient(to bottom right, rgba(250, 112, 154, 1), rgba(254, 225, 64, 1));
+
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: linear-gradient(to bottom right, rgba(250, 112, 154, 1), rgba(254, 225, 64, 1))
+}
+    </style>
+  </head>
+  <body>
+    <!-- Start your project here-->
+    <div class="container">
+  <!-- Content here -->
+  <section class="intro">
+    <div class="mask d-flex align-items-center h-100 gradient-custom">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-12 col-lg-9 col-xl-7">
+            <div class="card">
+              <div class="card-body p-4 p-md-5">
+                <h3 class="mb-4 pb-2">Reference Request Form</h3>
+  
+                <form method="POST" action="{{ url_for('get_data') }}" enctype="multipart/form-data">
+  
+                  <div class="row">
+
+                    <div class="col-md-6 mb-4">
+  
+                      <div class="form-outline">
+                        <input name="cpm" type="text" id="cpm" class="form-control" />
+                        <label class="form-label" for="cpm">CPM</label>
+                      </div>
+  
+                    </div>
+
+                    <div class="col-md-6 mb-4">
+  
+                      <div class="form-outline">
+                        <input name="mc" type="text" id="MC" class="form-control" />
+                        <label class="form-label" for="MC">MC</label>
+                      </div>
+  
+                    </div>
+                  </div>  
+                  <div class="row">
+
+                    <div class="col-md-6 mb-4">
+  
+                      <div class="form-outline">
+                        <input name="nic" type="text" id="NIC" class="form-control" />
+                        <label class="form-label" for="NIC">NIC</label>
+                      </div>
+  
+                    </div>
+
+                    <div class="col-md-6 mb-4">
+  
+                      <div class="form-outline datepicker" data-mdb-toggle-button="false">
+                        <input
+                          name ="date"
+                          type="date"
+                          class="form-control"
+                          id="exampleDatepicker1"
+                          data-mdb-toggle="datepicker"
+                        />
+                        <label for="exampleDatepicker1" class="form-label">Date of Birth</label>
+                      </div>
+  
+                    </div>
+                  </div>                      
+          
+                  
+                  
+
+  
+                  <div class="row">
+                    <div class="col-12">
+                      <div class="mt-4">
+                        <input class="btn btn-warning btn-lg" type="submit" value="Submit" />
+                      </div>
+                    </div>
+
+                    <div class="col-12">
+                      <div class="mt-4">
+                      {% with messages = get_flashed_messages() %}
+                          {% if messages %}
+  
+                            {% for message in messages %}
+                            <div class="alert alert-danger d-flex align-items-center" role="alert">
+                              <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+                              <div>
+                                <span> {{ message }}</span>
+                            </div>
+                            {% endfor %}  
+                          
+                          {% endif %}
+                        {% endwith %}  
+                      </div>  
+                    </div>
+  
+                  </div>
+
+                  </div>
+                  
+  
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  
+  
+    </div>
+    <!-- End your project here-->
+
+    <!-- MDB -->
+    <script type="text/javascript" src="/static/js/mdb.min.js"></script>
+    <!-- Custom scripts -->
+    <script type="text/javascript"></script>
+  </body>
+</html>
