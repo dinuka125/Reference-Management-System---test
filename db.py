@@ -65,19 +65,33 @@ def insert_data_requests(cpm, mc, nic, name, dob, email, phone, type,remarks=Non
         print(e)        
 
 
-def fetch_data(cpm):        
+def fetch_data(cpm, mc, nic):        
     con = sqlite3.connect("ref_database.db")
     cur = con.cursor()
 
     try:
-        query = "SELECT * FROM USER WHERE CPM=? "#AND MC=?"
-        data = [cpm]
+        query = "SELECT * FROM USER WHERE CPM=? AND MC=? AND NIC=?"
+        data = [cpm, mc, nic]
         cur.execute(query,data)
         out = cur.fetchall()
         return out
     
     except Exception as e:
         print(e)
+
+def fetch_data_2(cpm):        
+    con = sqlite3.connect("ref_database.db")
+    cur = con.cursor()
+
+    try:
+        query = "SELECT * FROM USER WHERE CPM=?"
+        data = [cpm]
+        cur.execute(query,data)
+        out = cur.fetchall()
+        return out
+    
+    except Exception as e:
+        print(e)        
 
 def fetch_data_requests(cpm):        
     con = sqlite3.connect("ref_database.db")
@@ -141,17 +155,17 @@ def fetch_auth_data(cpm):
 
 if __name__ == "__main__":
     initiate_db()
-    cpm = int(input("Please input the cpm :"))
-    mc  = int(input("please input the MC :"))
-    nic = input("Please input the nic")
-    name = input("Please input the name :")
-    dob = input("Please input the DOB :")
-    email = input("Please input the email :")
-    phone = input("Please input the phone :")        
+    # cpm = int(input("Please input the cpm :"))
+    # mc  = int(input("please input the MC :"))
+    # nic = input("Please input the nic")
+    # name = input("Please input the name :")
+    # dob = input("Please input the DOB :")
+    # email = input("Please input the email :")
+    # phone = input("Please input the phone :")        
 
-    insert_data(cpm,mc,nic,name,dob,email,phone)
+    # insert_data(cpm,mc,nic,name,dob,email,phone)
 
-    out = fetch_data(cpm)
+    out = fetch_data(17774,87548,"963320558V")
     if not out:
         print("yeah")
     else:

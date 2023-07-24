@@ -6,7 +6,7 @@ from gpt_utils import generate_letter
 from pdf_utils import hello
 from utils import gen_confirm_code
 from utils import send_email_confirmation
-from db import send_to_db_auth1,send_to_db_auth2,fetch_auth_data
+from db import send_to_db_auth1,send_to_db_auth2,fetch_auth_data,fetch_data_2
 import re
 from flask_ckeditor import CKEditor
 
@@ -32,10 +32,10 @@ def get_data():
         cpm = request.form.get("cpm")
         mc = request.form.get("mc")
         nic = request.form.get("nic")
-        dob = request.form.get("date")
+        
 
         initiate_db()
-        out = fetch_data(cpm)
+        out = fetch_data(cpm, mc, nic)
         if not out:
             flash("Your data doesn't match")
             return render_template('index.html')
@@ -63,15 +63,16 @@ def contact_info():
         
         else:
             code = gen_confirm_code()
-            out = fetch_data(cpm)
+            out = fetch_data_2(cpm)
             if out:
                 name = out[0][3]
                 send_to_db_auth1(cpm, code)
                 send_email_confirmation(name,cpm,code,email) 
-                return render_template("confirm.html")
+                return render_template("confirmation_msg.html")
 
-        # return render_template('type_of_letter.html')
+        
     
+
 
 
 @app.route('/type_of_letter', methods = ["POST"])
@@ -97,7 +98,7 @@ def letter_to_whome_it():
         summary_by_user = request.form.get("text")
 
         send_reference_request(cpm, mc, "to_whome_it")
-        out = fetch_data(cpm)
+        out = fetch_data_2(cpm)
         
         if out:
             print(out[0][3])
@@ -115,7 +116,7 @@ def reference():
         other_details = request.form.get("text")
 
         send_reference_request(cpm, mc, "reference")
-        out = fetch_data(cpm)
+        out = fetch_data_2(cpm)
         
         if out:
             print(out[0][3])
@@ -134,7 +135,7 @@ def letter_other():
         
 
         send_reference_request(cpm, mc, "other")
-        out = fetch_data(cpm)
+        out = fetch_data_2(cpm)
         
         if out:
             print(out[0][3])
@@ -144,7 +145,9 @@ def letter_other():
 
     return render_template("letter_to_other_success.html")
 
-
+@app.route("/type_of_letter")
+def type_of_letter_show():
+    return render_template("type_of_letter.html")
 
 @app.route('/auth_dd/<cpm>/<auth2>')
 def auth_dd(cpm,auth2):
@@ -153,7 +156,7 @@ def auth_dd(cpm,auth2):
     out = fetch_auth_data(cpm)
     if out:
         if (out[0][1]) == (out[0][1]):
-            return render_template("type_of_letter.html")
+            return render_template("email_verified.html")
         return "Error with confirmation, Please Try again later"
 
  

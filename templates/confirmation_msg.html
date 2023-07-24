@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
-    <title>Reference Request System</title>
+    <title>Request Sucess</title>
     <!-- MDB icon -->
     <link rel="icon" href="/static/img/mdb-favicon.ico" type="image/x-icon" />
     <!-- Font Awesome -->
@@ -48,41 +48,28 @@
           <div class="col-12 col-lg-9 col-xl-7">
             <div class="card">
               <div class="card-body p-4 p-md-5">
-                <h3 class="mb-4 pb-2">Enter Contact Info</h3>
+                <center><h4 class="mb-2"> Please Check your email for verification link 🫡🔗 </h4></center>
   
-                <form method="POST" action="{{ url_for('contact_info') }}" enctype="multipart/form-data">
+                <!-- <form method="POST" action="{{ url_for('letter_to_whome_it') }}" enctype="multipart/form-data"> -->
   
-                  <div class="row">
+                  <!-- <div class="row">
 
-                    <div class="col-md-6 mb-4">
-  
-                      <div class="form-outline">
-                        <input name="email" type="text" id="email" class="form-control" />
-                        <label class="form-label" for="email">Email</label>
-                      </div>
-  
+                 
+                    <div class="form-outline">
+                        <textarea name = "text" class="form-control" id="textAreaExample2" rows="8"></textarea>
+                        <label class="form-label" for="textAreaExample2">Write a short summary about what you did at University</label>
                     </div>
-
-                    <div class="col-md-6 mb-4">
-  
-                      <div class="form-outline">
-                        <input name="phone_no" type="text" id="phone_no" class="form-control" />
-                        <label class="form-label" for="phone_no">Phone No</label>
-                      </div>
-  
-                    </div>
-                  </div>  
+        
                                   
-          
                   <div class="row">
                     <div class="col-12">
                       <div class="mt-4">
-                        <input class="btn btn-warning btn-lg" type="submit" value="Verify" />
+                        <input class="btn btn-warning btn-lg" type="submit" value="Submit" />
                       </div>
   
-                    </div>
+                    </div> -->
 
-                    <div class="col-12">
+                    <!-- <div class="col-12">
                       <div class="mt-4">
                       {% with messages = get_flashed_messages() %}
                           {% if messages %}
@@ -98,7 +85,7 @@
                           {% endif %}
                         {% endwith %}  
                       </div>  
-                    </div>
+                    </div> -->
 
                   </div>
   
