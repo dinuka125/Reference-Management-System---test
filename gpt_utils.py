@@ -1,6 +1,6 @@
 import bardapi
 
-token =  'YAg_OQmFUn--EklOAmddtngCgUQGmo3Y69JaoeYMOyGqb0wJlynTyvj1jFZM2l4fpb7eDw.'
+token =  'ZQg_OUmxOnKyKP8-v8XNuaUm2r9v4ZPmUwIItY4Reto4LGl2IkrcTxSL9iaspMtnhHd6nw.'
 
 def generate_letter(input_prompt):
 

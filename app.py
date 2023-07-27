@@ -1,10 +1,10 @@
 from flask import Flask,render_template,request,flash
 from email_validator import check
 from utils import send_email_confirmation, send_reference_request 
-from db import initiate_db, fetch_data, fetch_data_requests, insert_data_L_to_whome, fetch_auto,insert_data_L_higher_studies, insert_ref_emp,insert_data_L_visa,insert_data_L_other
+from db import * #initiate_db, fetch_data, fetch_data_requests, insert_data_L_to_whome, fetch_auto,insert_data_L_higher_studies, insert_ref_emp,insert_data_L_visa,insert_data_L_other
 from gpt_utils import generate_letter
 from pdf_utils import hello
-from utils import gen_confirm_code
+from utils import gen_confirm_code, process_texts
 from utils import send_email_confirmation
 from db import send_to_db_auth1,send_to_db_auth2,fetch_auth_data,fetch_data_2
 import re
@@ -184,17 +184,30 @@ def auth_dd(cpm,auth2):
 @app.route('/auth/<type>/<sender>/<cpm>', methods=["GET"])
 def auth(type,sender,cpm):
     if type == "to_whome_it":
-        out = fetch_data_requests(cpm)
-        print("this is the out of to whom it may concern", out)
-        if out:
-            cpm = out[0][0]
-            mc = out[0][1]
-            name = out[0][3]
-            remarks = out[0][8]
+        out = fetch_data_requests_to_whome_it(cpm)
+        
+        if len(out) >1:
+            valid_out = out[-1]
+        else:
+            valid_out = out[0]
+        
+        cpm = valid_out[-1]
 
-        #processing core functions should goes here
-            prompt = """Can you write a brief to whome it may concern type of 
-            letter using followig information ? 'I'm {name}, {remarks} '""".format(name=name, remarks=remarks)
+        positions = process_texts(valid_out[1])
+        contributions = process_texts(valid_out[2])
+        summary = valid_out[3]
+
+        user_data =  get_user_data(cpm)
+        if user_data:
+            name = user_data[0][3]
+
+
+            #prompt 
+            prompt = """Can you write a brief 'to whome it may concern type of 
+            letter' using followig information ? The information = "'I'm {name}, and I was a student of Department of information technology,
+            Faculty of management of commerce, University of Sri Jayewardenepura. 
+            During my undergrads I held these positions : {positions}, and i contributed to the department using 
+            following ways : {contributions}. {remarks} " """.format(name=name, positions=positions, contributions=contributions, remarks=summary)
 
             out = generate_letter(prompt)
             print(out)
@@ -205,17 +218,27 @@ def auth(type,sender,cpm):
         if sender == "admin":
             return True
 
-    if type == "reference":
-        out = fetch_data_requests(cpm)
+    if type == "Reference_for_higher_studies":
+        out = fetch_data_requests_higher_studies(cpm)
 
-        if out:
-            cpm = out[0][0]
-            name = out[0][3]
-            university = out[0][9]
-            year = out[0][11]
+        if len(out) >1:
+            valid_out = out[-1]
+        else:
+            valid_out = out[0]
+
+        cpm = valid_out[-1]
+        university = valid_out[1]
+        degree = valid_out[2]
+        year = valid_out[3]
+        other_details = valid_out[4]
+        
+        user_data =  get_user_data(cpm)
+        if user_data:
+            name = user_data[0][3]
 
             prompt = """Can you write a brief reference for higher studies email for me
-            using following infomration ? 'I'm {name}, and I'm hoping to apply for higher studies in{university} for {year} '""".format(name=name, university=university, year=year)
+            using following infomration ? 'I'm {name}, and I'm hoping to apply for higher studies in{university} for {year} for {degree}, ' and using following 
+            information {other_details}""".format(name=name, university=university, year=year, degree=degree, other_details=other_details)
 
             out = generate_letter(prompt)
             print(out)
@@ -225,19 +248,94 @@ def auth(type,sender,cpm):
         
         if sender == "admin":
             return True
-        
-    if type == "other":
-        out = fetch_data_requests(cpm)
-        if out :
-            name = out[0][3]
-            reason = out[0][13]
 
-            prompt =""" Can you write a brief letter regarding the matter of {reason} and please generate only the letter body""".format(reason=reason)
+    if type == "Reference_for_employement":        
+        out = fetch_data_requests_ref_emp(cpm)
+
+        if len(out) >1:
+            valid_out = out[-1]
+        else:
+            valid_out = out[0]
+
+        cpm = valid_out[-1]
+        company = valid_out[1]
+        job_title = valid_out[2]
+        activities_at_uni = process_texts(valid_out[3])
+
+        user_data = get_user_data(cpm)
+        if user_data:
+            name = user_data[0][3]
+
+            prompt = """Can you write a professional 'Reference for employement' type of letter using following information ? 
+            "I'm {name}, I graduated from Department of information technology, University of Sri Jayewardenepura. I hope to apply for {company} for 
+            {job_title} position, Here are some of my activities that i have done during my undergrad {activities_at_uni}    """.format(name = name, company=company, job_title = job_title,
+            activities_at_uni = activities_at_uni)
+
+
+            out = generate_letter(prompt)
+            print(out) 
+
+        if sender == "web":
+            return render_template("edit_letter.html", letter = out)
+        
+        if sender == "admin":
+            return True
+
+    if type == "A_letter_of_support_for_Visa_Purposes":
+        out = fetch_data_requests_L_visa(cpm)
+
+        if len(out) >1:
+            valid_out = out[-1]
+        else:
+            valid_out = out[0]
+
+
+        cpm = valid_out[-1]
+        country = valid_out[1]
+        reason = valid_out[2]
+        activities = process_texts(valid_out[3])
+
+        user_data = get_user_data(cpm)
+   
+        if user_data:
+            name = user_data[0][3]
+
+            prompt = """  Can you write a letter of support for visa purposes using following information ?
+            'I'm {name}, I graduated from Department of information technology, University of Sri Jayewardenepura. I hope to apply for visa for purpose of {reason}. 
+            During my undergrad, here are my activities {activities}
+            """.format(name=name, reason=reason, activities=activities)
 
             out = generate_letter(prompt)
             print(out)
-        #processing core functions should goes here
-                    #return render_template("edit_letter.html", letter = out)
+
+        else:
+            return "Unexpected error occured please try again later"    
+
+        if sender == "web":
+            return render_template("edit_letter.html", letter = out)
+        
+        if sender == "admin":
+            return True
+
+
+        
+    if type == "other":
+        out = fetch_data_requests_other(cpm)
+
+        if len(out) >1:
+            valid_out = out[-1]
+        else:
+            valid_out = out[0]
+
+        cpm = valid_out[-1]
+        reason = valid_out[1]
+        summary = valid_out[2]
+
+        prompt =""" Can you write a professional brief letter regarding the matter of {reason} using these information ? '{summary}'""".format(reason=reason,summary=summary)
+
+        out = generate_letter(prompt)
+        print(out)
+
         if sender == "web":
             return render_template("edit_letter.html", letter = out)    
         

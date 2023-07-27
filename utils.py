@@ -72,3 +72,12 @@ def send_email_confirmation(name,cpm,auth2,email):
     print("Successfully sent a email confirmation email")
 
 
+def process_texts(text):
+    if "\n" or "\r" in text:
+        text = text.replace("\r", "")
+        text = text.split("\n")
+        text = ", ".join(text)
+        return(text)
+    elif "," in text:
+        return (text)
+
