@@ -48,7 +48,7 @@
           <div class="col-12 col-lg-9 col-xl-7">
             <div class="card">
               <div class="card-body p-4 p-md-5">
-                <h3 class="mb-4 pb-2">Type of letter</h3>
+                <h3 class="mb-4 pb-2">Please Select the type of letter you need</h3>
   
                 <form method="POST" action="{{ url_for('type_of_letter') }}" enctype="multipart/form-data">
   
@@ -57,19 +57,35 @@
                     <div class="form-check">
                         <input name = "radio" class="form-check-input" type="radio" value="to_whome_it" id="flexRadioDefault1" checked>
                         <label class="form-check-label" for="flexRadioDefault1">
-                          To Whome it...
+                          Letter Addressed as “To Whom It may Concern” which explain your general conduct during the degree program
                         </label>
                       </div>
+
                       <div class="form-check">
-                        <input name = "radio" class="form-check-input" type="radio" value="reference" id="flexRadioDefault2" >
+                        <input name = "radio" class="form-check-input" type="radio" value="higher" id="flexRadioDefault2" >
                         <label class="form-check-label" for="flexRadioDefault2">
-                          Reference for higher studies 
+                          A letter of support for an application for Higher Studies (Local or International)
                         </label>
                       </div> 
+
                       <div class="form-check">
-                        <input name = "radio" class="form-check-input" type="radio" value="other" id="flexRadioDefault2" >
+                        <input name = "radio" class="form-check-input" type="radio" value="reference" id="flexRadioDefault3" >
                         <label class="form-check-label" for="flexRadioDefault3">
-                          Other
+                          A letter of support for an Interview to a particular job position
+                        </label>
+                      </div> 
+
+                      <div class="form-check">
+                        <input name = "radio" class="form-check-input" type="radio" value="visa" id="flexRadioDefault4" >
+                        <label class="form-check-label" for="flexRadioDefault4">
+                          A letter of support for Visa Purposes
+                        </label>
+                      </div>   
+
+                      <div class="form-check">
+                        <input name = "radio" class="form-check-input" type="radio" value="other" id="flexRadioDefault5" >
+                        <label class="form-check-label" for="flexRadioDefault5">
+                          A letter required for a different reason (other than above four)
                         </label>
                       </div> 
                                   
@@ -81,23 +97,7 @@
   
                     </div>
 
-                    <div class="col-12">
-                      <div class="mt-4">
-                      {% with messages = get_flashed_messages() %}
-                          {% if messages %}
-  
-                            {% for message in messages %}
-                            <div class="alert alert-danger d-flex align-items-center" role="alert">
-                              <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
-                              <div>
-                                <span> {{ message }}</span>
-                            </div>
-                            {% endfor %}  
-                          
-                          {% endif %}
-                        {% endwith %}  
-                      </div>  
-                    </div>
+
 
                   </div>
   

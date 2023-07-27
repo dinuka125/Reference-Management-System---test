@@ -48,9 +48,9 @@
           <div class="col-12 col-lg-9 col-xl-7">
             <div class="card">
               <div class="card-body p-4 p-md-5">
-                <h3 class="mb-4 pb-2">Type of letter - Reference for Higher Studies</h3>
+                <h3 class="mb-4 pb-2">Type of letter - Recommendation Letter for Higher Studies (Local or International)</h3>
   
-                <form method="POST" action="{{ url_for('reference') }}" enctype="multipart/form-data">
+                <form method="POST" action="{{ url_for('higher_studies') }}" enctype="multipart/form-data">
   
                 
 
@@ -70,14 +70,14 @@
 
                     <div class="mb-4">
                         <div class="form-outline">
-                            <input name="Year" type="text" id="email" class="form-control" />
+                            <input name="year" type="text" id="email" class="form-control" />
                             <label class="form-label" for="email">Year </label>
                         </div>  
                     </div>
 
                     <div class="mb-4">
                         <div class="form-outline">
-                            <textarea name = "text" class="form-control" id="textAreaExample2" rows="8"></textarea>
+                            <textarea name = "text" class="form-control" id="textAreaExample2" maxlength="1000" rows="8"></textarea>
                             <label class="form-label" for="textAreaExample2">Other details..</label>
                         </div>
                     </div>    

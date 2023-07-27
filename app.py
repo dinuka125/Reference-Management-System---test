@@ -1,7 +1,7 @@
 from flask import Flask,render_template,request,flash
 from email_validator import check
 from utils import send_email_confirmation, send_reference_request 
-from db import initiate_db, fetch_data, insert_data_requests, fetch_data_requests
+from db import initiate_db, fetch_data, fetch_data_requests, insert_data_L_to_whome, fetch_auto,insert_data_L_higher_studies, insert_ref_emp,insert_data_L_visa,insert_data_L_other
 from gpt_utils import generate_letter
 from pdf_utils import hello
 from utils import gen_confirm_code
@@ -83,9 +83,15 @@ def type_of_letter():
         if type_of_letter == "to_whome_it":
             return render_template("to_whome.html")
         
-        if type_of_letter == "reference":
+        if type_of_letter == "higher":
             return render_template("reference.html")
+
+        if type_of_letter == "reference":
+            return render_template("reference_emp.html")    
         
+        if type_of_letter == "visa":
+            return render_template("ref_visa.html")
+
         if type_of_letter == "other":
             return render_template("other.html")
         
@@ -95,36 +101,55 @@ def type_of_letter():
 @app.route('/letter_to_whome_it', methods = ["GET", "POST"])
 def letter_to_whome_it():
     if request.method == "POST":
-        summary_by_user = request.form.get("text")
+        positions = request.form.get("positions")
+        contributions = request.form.get("contributions")
+        summary_by_user = request.form.get("summary")
 
         send_reference_request(cpm, mc, "to_whome_it")
-        out = fetch_data_2(cpm)
-        
-        if out:
-            print(out[0][3])
-            insert_data_requests(cpm = cpm, mc= mc, nic = nic, name = out[0][3], dob = out[0][4], email = email, phone = phone_no, type= "to_whome_it", remarks = summary_by_user)
+        insert_data_L_to_whome(positions, contributions, summary_by_user, cpm)
 
     return render_template("letter_to_whome_success.html")
 
 
-@app.route('/reference', methods = ["GET", "POST"])
-def reference():
+@app.route('/higher_studies', methods = ["GET", "POST"])
+def higher_studies():
     if request.method == "POST":
         university = request.form.get("uni")
         degree = request.form.get("degree")
         year = request.form.get("year")
         other_details = request.form.get("text")
 
-        send_reference_request(cpm, mc, "reference")
-        out = fetch_data_2(cpm)
-        
-        if out:
-            print(out[0][3])
-            insert_data_requests(cpm = cpm, mc= mc, nic = nic, name = out[0][3],
-                                  dob = out[0][4], email = email, phone = phone_no,
-                                    type= "reference", university= university, degree = degree, year = year, other_details = other_details)
+        send_reference_request(cpm, mc, "Reference_for_higher_studies")
+        insert_data_L_higher_studies(university, degree, year, other_details, cpm)
+
 
     return render_template("letter_to_whome_success.html")
+
+
+@app.route('/ref_emp', methods = ["GET", "POST"])
+def ref_emp():
+    if request.method == "POST":
+        company = request.form.get("company")
+        job = request.form.get("job")
+        activities_at_uni = request.form.get("activities_at_uni")
+
+        send_reference_request(cpm, mc, "Reference_for_employement")
+        insert_ref_emp(company, job, activities_at_uni,cpm)
+
+
+    return render_template("letter_to_whome_success.html")
+    
+
+@app.route('/ref_visa', methods = ["GET", "POST"])
+def ref_visa():
+    if request.method == "POST":
+        country = request.form.get("country")
+        reason = request.form.get("reason")
+        activities_at_uni = request.form.get("activities_at_uni")
+    
+        send_reference_request(cpm, mc, "A_letter_of_support_for_Visa_Purposes")
+        insert_data_L_visa(country, reason, activities_at_uni, cpm)
+    return render_template("letter_to_whome_success.html")        
 
 
 @app.route('/letter_to_other', methods = ["GET", "POST"])
@@ -133,17 +158,11 @@ def letter_other():
         reason = request.form.get("reason")
         summary = request.form.get("text")
         
-
         send_reference_request(cpm, mc, "other")
-        out = fetch_data_2(cpm)
+        insert_data_L_other(reason, summary, cpm)
         
-        if out:
-            print(out[0][3])
-            insert_data_requests(cpm = cpm, mc= mc, nic = nic, name = out[0][3],
-                                  dob = out[0][4], email = email, phone = phone_no,
-                                    type= "other", reason=reason, summary=summary)
-
     return render_template("letter_to_other_success.html")
+
 
 @app.route("/type_of_letter")
 def type_of_letter_show():
@@ -244,6 +263,7 @@ def create_pdf():
         hello() 
 
     return render_template("sent_pdf_file.html")
+
 
 
 

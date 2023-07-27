@@ -48,39 +48,34 @@
           <div class="col-12 col-lg-9 col-xl-7">
             <div class="card">
               <div class="card-body p-4 p-md-5">
-                <h3 class="mb-4 pb-2">Type of letter - To whome it...</h3>
+                <h3 class="mb-4 pb-2">A Reference Letter in support of your Employment</h3>
   
-                <form method="POST" action="{{ url_for('letter_to_whome_it') }}" enctype="multipart/form-data">
-  
-                  <div class="row">
+                <form method="POST" action="{{ url_for('ref_emp') }}" enctype="multipart/form-data">
+  <!-- Backend functions should be applied here -->
+                
 
-                    <div class="mt-4">
-                      <div class="form-outline">
-                          <textarea name = "positions" class="form-control" id="textAreaExample1" maxlength="1000" rows="4"></textarea>
-                          <label class="form-label" for="textAreaExample2">List the positions you held for the Students Association of IT (S@IT)</label>
-                      </div>
+                    <div class="mb-4">
+                        <div class="form-outline">
+                            <input name="company" type="text" id="email" class="form-control" />
+                            <label class="form-label" for="email">Company applying for </label>
+                        </div>
                     </div>
-                  
-          
-                    <div class="mt-4">
-                      <div class="form-outline">
-                          <textarea name = "contributions" class="form-control" id="textAreaExample2" maxlength="1000" rows="4"></textarea>
-                          <label class="form-label" for="textAreaExample2">List any other contribution you did for the Department and attach a </br> URL link for evidences</label>
-                      </div>
-                    </div>
-                  
-                   
 
-                  
+                    <div class="mb-4">    
+                        <div class="form-outline">
+                            <input name="job" type="text" id="email" class="form-control" />
+                            <label class="form-label" for="email">Job Title</label>
+                        </div>
+                    </div>      
 
-                    <div class="mt-4">
-                      <div class="form-outline">
-                          <textarea name = "summary" class="form-control" id="textAreaExample3" maxlength="1000" rows="4"></textarea>
-                          <label class="form-label" for="textAreaExample2">Write a short summary about what you did at University</label>
-                      </div>
-                    </div>
-                  
-                  </div>  
+                    <div class="mb-4">
+                        <div class="form-outline">
+                            <textarea name = "activities_at_uni" class="form-control" id="textAreaExample2" maxlength="1000" rows="8"></textarea>
+                            <label class="form-label" for="textAreaExample2">Briefly explain your activities in University </br> (Academics / List the positions you held for the Students Association </br> of IT (S@IT) / List any other contributions you did for the Department </br> and attach a URL link for evidences)</label>
+                        </div>
+                    </div>    
+
+                    
                                   
                   <div class="row">
                     <div class="col-12">
@@ -108,7 +103,7 @@
                       </div>  
                     </div> -->
 
-                  </div>
+                  
   
                 </form>
               </div>

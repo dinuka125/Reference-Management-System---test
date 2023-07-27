@@ -25,6 +25,13 @@ def initiate_db():
     """)
     return con, cur
 
+def create_table_l_to_whome():
+    con = sqlite3.connect("ref_database.db")
+    cur = con.cursor()
+
+    cur.executescrip
+
+
 def insert_data(cpm, mc, nic, name, dob, email, phone):
     try:
         con = sqlite3.connect("ref_database.db")
@@ -38,31 +45,99 @@ def insert_data(cpm, mc, nic, name, dob, email, phone):
     except Exception as e:
         print(e)
 
-def insert_data_requests(cpm, mc, nic, name, dob, email, phone, type,remarks=None,reason=None, summary=None,
-                         university=None, degree=None, year=None, other_details=None ):
+
+#======================================================================= Request data base functions 
+
+def insert_data_L_to_whome(positions, contributions, summary, cpm):
     try:
         con = sqlite3.connect("ref_database.db")
         cur = con.cursor()
-        if type == "to_whome_it":
-            query = "INSERT INTO REQUESTS (CPM, MC, NIC, NAME, DOB, EMAIL, PHONE, TYPE, REMARKS) VALUES(?,?,?,?,?,?,?,?,?)"
-            data = [cpm, mc, nic, name, dob, email, phone, type, remarks]
-            cur.execute(query,data)
-
-        if type == "reference":
-            query = "INSERT INTO REQUESTS (CPM, MC, NIC, NAME, DOB, EMAIL, PHONE, TYPE, university, degree, year, other_details) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)"
-            data = [cpm, mc, nic, name, dob, email, phone, type, university, degree, year, other_details]
-            cur.execute(query,data)
-
-        if type == "other":
-            query = "INSERT INTO REQUESTS (CPM, MC, NIC, NAME, DOB, EMAIL, PHONE, TYPE, reason, summary) VALUES(?,?,?,?,?,?,?,?,?,?)"
-            data = [cpm, mc, nic, name, dob, email, phone, type, reason, summary]
-            cur.execute(query,data)
-
+        query = "INSERT INTO L_to_whome (POSITIONS, CONTRIBUTIONS, SUMMARY, CPM) VALUES(?,?,?,?)"
+        data = [positions, contributions, summary, cpm]
+        cur.execute(query, data)
         con.commit()
-        print("--- Data Row instered Sucessfully ---")
+
+    except Exception as e:
+        print(e)
+
+def insert_data_L_higher_studies(university, degree, year, other_details, cpm):
+    try:
+        con = sqlite3.connect("ref_database.db")
+        cur = con.cursor()
+        query = "INSERT INTO L_higher_studies (UNIVERSITY, DEGREE, YEAR, OTHER_DETAILS, CPM) VALUES(?,?,?,?,?)"
+        data = [university, degree, year, other_details, cpm]
+        cur.execute(query, data)
+        con.commit()
+
+    except Exception as e:
+        print(e)
+
+
+def insert_ref_emp(company, job, activities_at_uni,cpm):
+    try:
+        con = sqlite3.connect("ref_database.db")
+        cur = con.cursor()
+        query = "INSERT INTO L_ref_emp (COMPANY, JOB_TITLE, ACTIVITIES_AT_UNI , CPM) VALUES(?,?,?,?)"
+        data = [company, job, activities_at_uni,cpm]
+        cur.execute(query, data)
+        con.commit()
 
     except Exception as e:
         print(e)        
+
+def insert_data_L_visa(country, reason, activities_at_uni, cpm):
+    try:
+        con = sqlite3.connect("ref_database.db")
+        cur = con.cursor()
+        query = "INSERT INTO L_VISA (COUNTRY, REASON, ACTIVITIES, CPM) VALUES(?,?,?,?)"
+        data = [country, reason, activities_at_uni, cpm]
+        cur.execute(query, data)
+        con.commit()
+
+    except Exception as e:
+        print(e)    
+
+def insert_data_L_other(reason, summary, cpm):
+    try:
+        con = sqlite3.connect("ref_database.db")
+        cur = con.cursor()
+        query = "INSERT INTO L_OTHER (REASON, SUMMARY, CPM) VALUES(?,?,?)"
+        data = [reason, summary, cpm]
+        cur.execute(query, data)
+        con.commit()
+
+    except Exception as e:
+        print(e)    
+
+
+#====================================================================== Request data base functions ends here
+
+
+# def insert_data_requests(cpm, mc, nic, name, dob, email, phone, type,remarks=None,reason=None, summary=None,
+#                          university=None, degree=None, year=None, other_details=None ):
+#     try:
+#         con = sqlite3.connect("ref_database.db")
+#         cur = con.cursor()
+#         if type == "to_whome_it":
+#             query = "INSERT INTO REQUESTS (CPM, MC, NIC, NAME, DOB, EMAIL, PHONE, TYPE, REMARKS) VALUES(?,?,?,?,?,?,?,?,?)"
+#             data = [cpm, mc, nic, name, dob, email, phone, type, remarks]
+#             cur.execute(query,data)
+
+#         if type == "reference":
+#             query = "INSERT INTO REQUESTS (CPM, MC, NIC, NAME, DOB, EMAIL, PHONE, TYPE, university, degree, year, other_details) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)"
+#             data = [cpm, mc, nic, name, dob, email, phone, type, university, degree, year, other_details]
+#             cur.execute(query,data)
+
+#         if type == "other":
+#             query = "INSERT INTO REQUESTS (CPM, MC, NIC, NAME, DOB, EMAIL, PHONE, TYPE, reason, summary) VALUES(?,?,?,?,?,?,?,?,?,?)"
+#             data = [cpm, mc, nic, name, dob, email, phone, type, reason, summary]
+#             cur.execute(query,data)
+
+#         con.commit()
+#         print("--- Data Row instered Sucessfully ---")
+
+#     except Exception as e:
+#         print(e)        
 
 
 def fetch_data(cpm, mc, nic):        
@@ -147,6 +222,17 @@ def fetch_auth_data(cpm):
     except Exception as e:
         print(e)
 
+def fetch_auto(cpm):
+    con = sqlite3.connect("ref_database.db")
+    cur = con.cursor()
+    try:
+        query = "SELECT * FROM L_VISA WHERE CPM=?"
+        data = [cpm]
+        cur.execute(query,data)
+        out = cur.fetchall()
+        return out
+    except Exception as e:
+        print(e)
 
 
         
@@ -165,9 +251,12 @@ if __name__ == "__main__":
 
     # insert_data(cpm,mc,nic,name,dob,email,phone)
 
-    out = fetch_data(17774,87548,"963320558V")
-    if not out:
-        print("yeah")
-    else:
-        print(out)    
+    # out = fetch_data(17774,87548,"963320558V")
+    # if not out:
+    #     print("yeah")
+    # else:
+    #     print(out)    
+    insert_data_L_visa("USA", "work visa", "comittee member", 17521)
+    out = fetch_auto(17521)
+    print(out)
         

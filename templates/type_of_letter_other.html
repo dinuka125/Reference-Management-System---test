@@ -48,40 +48,27 @@
           <div class="col-12 col-lg-9 col-xl-7">
             <div class="card">
               <div class="card-body p-4 p-md-5">
-                <h3 class="mb-4 pb-2">Type of letter - To whome it...</h3>
+                <h3 class="mb-4 pb-2">Type of letter - Other</h3>
   
-                <form method="POST" action="{{ url_for('letter_to_whome_it') }}" enctype="multipart/form-data">
-  
-                  <div class="row">
+                <form method="POST" action="{{ url_for('reference') }}" enctype="multipart/form-data">
+  <!-- Backend functions should be applied here -->
+                
 
-                    <div class="mt-4">
-                      <div class="form-outline">
-                          <textarea name = "positions" class="form-control" id="textAreaExample1" maxlength="1000" rows="4"></textarea>
-                          <label class="form-label" for="textAreaExample2">List the positions you held for the Students Association of IT (S@IT)</label>
-                      </div>
-                    </div>
-                  
-          
-                    <div class="mt-4">
-                      <div class="form-outline">
-                          <textarea name = "contributions" class="form-control" id="textAreaExample2" maxlength="1000" rows="4"></textarea>
-                          <label class="form-label" for="textAreaExample2">List any other contribution you did for the Department and attach a </br> URL link for evidences</label>
-                      </div>
-                    </div>
-                  
-                   
+                    <div class="mb-4">
+                        <div class="form-outline">
+                            <input name="Reason" type="text" id="email" class="form-control" />
+                            <label class="form-label" for="email">Reason</label>
+                        </div>
+                    </div> 
 
-                  
+                    <div class="mb-4">
+                        <div class="form-outline">
+                            <textarea name = "activities_at_uni" class="form-control" id="textAreaExample2" rows="8"></textarea>
+                            <label class="form-label" for="textAreaExample2">Summary about what should letter be like</label>
+                        </div>
+                    </div>    
 
-                    <div class="mt-4">
-                      <div class="form-outline">
-                          <textarea name = "summary" class="form-control" id="textAreaExample3" maxlength="1000" rows="4"></textarea>
-                          <label class="form-label" for="textAreaExample2">Write a short summary about what you did at University</label>
-                      </div>
-                    </div>
-                  
-                  </div>  
-                                  
+            
                   <div class="row">
                     <div class="col-12">
                       <div class="mt-4">
@@ -108,7 +95,7 @@
                       </div>  
                     </div> -->
 
-                  </div>
+                  
   
                 </form>
               </div>
