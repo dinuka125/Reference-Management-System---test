@@ -8,7 +8,7 @@ def gen_confirm_code():
     return code 
 
 
-def send_reference_request(cpm, mc, type):
+def send_reference_request(cpm, type):
 
     msg = EmailMessage()
 
@@ -20,7 +20,6 @@ def send_reference_request(cpm, mc, type):
     Your have receivecd a reference request
 
         CPM : {cpm}
-        MC  : {mc}
         Type : {type}
     
     In order to process the request please click following link or please login to the admin panel.
@@ -30,7 +29,7 @@ def send_reference_request(cpm, mc, type):
     Reference management System
 
                             
-    """.format(cpm=cpm, mc=mc, type=type))
+    """.format(cpm=cpm, type=type))
 
     msg['Subject'] = 'Refernece Request'
     msg['From'] = "stockly125@gmail.com"

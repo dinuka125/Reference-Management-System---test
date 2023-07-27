@@ -25,9 +25,7 @@ def index():
 @app.route('/get', methods=['POST'])
 def get_data():
     if request.method == "POST":
-        global cpm
-        global mc
-        global nic
+     
 
         cpm = request.form.get("cpm")
         mc = request.form.get("mc")
@@ -40,17 +38,15 @@ def get_data():
             flash("Your data doesn't match")
             return render_template('index.html')
         else:
-            return render_template("next.html")
+            return render_template("next.html",cpm=cpm)
 
     return render_template('index.html')
 
 
 
-@app.route('/email', methods = ['POST'])
-def contact_info():
+@app.route('/email/<cpm>', methods = ['POST'])
+def contact_info(cpm):
     if request.method == "POST":
-        global email
-        global phone_no
 
         email = request.form.get('email')
         phone_no = request.form.get('phone_no')
@@ -75,98 +71,101 @@ def contact_info():
 
 
 
-@app.route('/type_of_letter', methods = ["POST"])
-def type_of_letter():
+@app.route('/type_of_letter/<cpm>', methods = ["POST"])
+def type_of_letter(cpm):
+
     if request.method == "POST":
         type_of_letter = request.form.get("radio")
 
         if type_of_letter == "to_whome_it":
-            return render_template("to_whome.html")
+            return render_template("to_whome.html",cpm=cpm)
         
         if type_of_letter == "higher":
-            return render_template("reference.html")
+            return render_template("reference.html",cpm=cpm)
 
         if type_of_letter == "reference":
-            return render_template("reference_emp.html")    
+            return render_template("reference_emp.html",cpm=cpm)    
         
         if type_of_letter == "visa":
-            return render_template("ref_visa.html")
+            return render_template("ref_visa.html",cpm=cpm)
 
         if type_of_letter == "other":
-            return render_template("other.html")
+            return render_template("other.html",cpm=cpm)
         
       
 
 
-@app.route('/letter_to_whome_it', methods = ["GET", "POST"])
-def letter_to_whome_it():
+@app.route('/letter_to_whome_it/<cpm>', methods = ["POST"])
+def letter_to_whome_it_func(cpm):
+    
     if request.method == "POST":
         positions = request.form.get("positions")
         contributions = request.form.get("contributions")
         summary_by_user = request.form.get("summary")
 
-        send_reference_request(cpm, mc, "to_whome_it")
+        send_reference_request(cpm, "to_whome_it")
         insert_data_L_to_whome(positions, contributions, summary_by_user, cpm)
 
     return render_template("letter_to_whome_success.html")
 
 
-@app.route('/higher_studies', methods = ["GET", "POST"])
-def higher_studies():
+@app.route('/higher_studies/<cpm>', methods = ["GET", "POST"])
+def higher_studies(cpm):
     if request.method == "POST":
         university = request.form.get("uni")
         degree = request.form.get("degree")
         year = request.form.get("year")
         other_details = request.form.get("text")
 
-        send_reference_request(cpm, mc, "Reference_for_higher_studies")
+        send_reference_request(cpm,"Reference_for_higher_studies")
         insert_data_L_higher_studies(university, degree, year, other_details, cpm)
 
 
     return render_template("letter_to_whome_success.html")
 
 
-@app.route('/ref_emp', methods = ["GET", "POST"])
-def ref_emp():
+@app.route('/ref_emp/<cpm>', methods = ["GET", "POST"])
+def ref_emp(cpm):
     if request.method == "POST":
         company = request.form.get("company")
         job = request.form.get("job")
         activities_at_uni = request.form.get("activities_at_uni")
 
-        send_reference_request(cpm, mc, "Reference_for_employement")
+        send_reference_request(cpm,"Reference_for_employement")
         insert_ref_emp(company, job, activities_at_uni,cpm)
 
 
     return render_template("letter_to_whome_success.html")
     
 
-@app.route('/ref_visa', methods = ["GET", "POST"])
-def ref_visa():
+@app.route('/ref_visa/<cpm>', methods = ["GET", "POST"])
+def ref_visa(cpm):
     if request.method == "POST":
         country = request.form.get("country")
         reason = request.form.get("reason")
         activities_at_uni = request.form.get("activities_at_uni")
     
-        send_reference_request(cpm, mc, "A_letter_of_support_for_Visa_Purposes")
+        send_reference_request(cpm,"A_letter_of_support_for_Visa_Purposes")
         insert_data_L_visa(country, reason, activities_at_uni, cpm)
     return render_template("letter_to_whome_success.html")        
 
 
-@app.route('/letter_to_other', methods = ["GET", "POST"])
-def letter_other():
+@app.route('/letter_to_other/<cpm>', methods = ["GET", "POST"])
+def letter_other(cpm):
     if request.method == "POST":
         reason = request.form.get("reason")
         summary = request.form.get("text")
         
-        send_reference_request(cpm, mc, "other")
+        send_reference_request(cpm,"other")
         insert_data_L_other(reason, summary, cpm)
         
     return render_template("letter_to_other_success.html")
 
 
-@app.route("/type_of_letter")
-def type_of_letter_show():
-    return render_template("type_of_letter.html")
+@app.route("/type_of_letter/<cpm>")
+def type_of_letter_show(cpm):
+    print("here at show",cpm)
+    return render_template("type_of_letter.html", cpm=cpm)
 
 @app.route('/auth_dd/<cpm>/<auth2>')
 def auth_dd(cpm,auth2):
@@ -175,7 +174,7 @@ def auth_dd(cpm,auth2):
     out = fetch_auth_data(cpm)
     if out:
         if (out[0][1]) == (out[0][1]):
-            return render_template("email_verified.html")
+            return render_template("email_verified.html", cpm=cpm)
         return "Error with confirmation, Please Try again later"
 
  

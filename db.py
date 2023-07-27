@@ -241,22 +241,22 @@ def fetch_auto(cpm):
 
 if __name__ == "__main__":
     initiate_db()
-    # cpm = int(input("Please input the cpm :"))
-    # mc  = int(input("please input the MC :"))
-    # nic = input("Please input the nic")
-    # name = input("Please input the name :")
-    # dob = input("Please input the DOB :")
-    # email = input("Please input the email :")
-    # phone = input("Please input the phone :")        
+    cpm = int(input("Please input the cpm :"))
+    mc  = int(input("please input the MC :"))
+    nic = input("Please input the nic")
+    name = input("Please input the name :")
+    dob = input("Please input the DOB :")
+    email = input("Please input the email :")
+    phone = input("Please input the phone :")        
 
-    # insert_data(cpm,mc,nic,name,dob,email,phone)
+    insert_data(cpm,mc,nic,name,dob,email,phone)
 
-    # out = fetch_data(17774,87548,"963320558V")
-    # if not out:
-    #     print("yeah")
-    # else:
-    #     print(out)    
-    insert_data_L_visa("USA", "work visa", "comittee member", 17521)
-    out = fetch_auto(17521)
-    print(out)
+    out = fetch_data(17774,87548,"963320558V")
+    if not out:
+        print("yeah")
+    else:
+        print(out)    
+    # insert_data_L_visa("USA", "work visa", "comittee member", 17521)
+    # out = fetch_auto(17521)
+    # print(out)
         

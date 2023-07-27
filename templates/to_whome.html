@@ -50,7 +50,9 @@
               <div class="card-body p-4 p-md-5">
                 <h3 class="mb-4 pb-2">Type of letter - To whome it...</h3>
   
-                <form method="POST" action="{{ url_for('letter_to_whome_it') }}" enctype="multipart/form-data">
+                <form method="POST" action="{{ url_for('letter_to_whome_it_func',cpm=cpm)}}" enctype="multipart/form-data">
+                  
+                  
   
                   <div class="row">
 
