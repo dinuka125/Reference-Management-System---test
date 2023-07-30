@@ -3,7 +3,7 @@ from email_validator import check
 from utils import send_email_confirmation, send_reference_request 
 from db import * #initiate_db, fetch_data, fetch_data_requests, insert_data_L_to_whome, fetch_auto,insert_data_L_higher_studies, insert_ref_emp,insert_data_L_visa,insert_data_L_other
 from gpt_utils import generate_letter
-from pdf_utils import hello
+from pdf_utils import make_letter
 from utils import gen_confirm_code, process_texts
 from utils import send_email_confirmation
 from db import send_to_db_auth1,send_to_db_auth2,fetch_auth_data,fetch_data_2
@@ -346,18 +346,10 @@ def auth(type,sender,cpm):
 @app.route('/create_pdf', methods=["POST"])
 def create_pdf():
     if request.method == "POST":
-        text = request.form.get("content")
+        text = request.form['content']
         print("This is the text output from textarea and taken from api :\n",text)
 
-        if text:
-            text = text.replace("<pre>", "")
-            text = text.replace("</pre>", "")
-
-            with open("file.txt", "w") as file:
-                file.writelines(text)
-                file.close()
-
-        hello() 
+        make_letter(text) 
 
     return render_template("sent_pdf_file.html")
 
