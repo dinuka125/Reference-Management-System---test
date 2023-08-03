@@ -57,9 +57,15 @@ from reportlab.lib.units import inch
 
 
 def header(canvas, doc, content):
+    w1, h1 = A4
     canvas.saveState()
-    w, h = content.wrap(doc.width, doc.topMargin)
-    content.drawOn(canvas, doc.leftMargin, doc.height + doc.bottomMargin + doc.topMargin - h)
+    header_img = 'resized-head.png'
+    header_content = ImageReader(header_img)
+    img_w, img_h = header_content.getSize()
+    # w, h = content.wrap(doc.width, doc.topMargin)
+    w, h = content.wrap(img_w, img_h)
+    # content.drawOn(canvas, doc.leftMargin, doc.height + doc.bottomMargin + doc.topMargin - h)
+    content.drawOn(canvas, 0, h1 - img_h)
     canvas.restoreState()
 
 def footer(canvas, doc, content):
@@ -79,7 +85,7 @@ def make_letter(text):
     styleH = styles['Heading1']
     story = []
 
-    header_img = 'HEADER.png'
+    header_img = 'resized-head.png'
     footer_img = 'FOOTER.png'
 
     yourStyle = ParagraphStyle('yourtitle',
@@ -96,7 +102,8 @@ def make_letter(text):
     
     
     # header_content = Image(header_img, 500 , 80)
-    header_content = Image(footer_img)
+    # header_content = ImageReader(header_img)
+    header_content = Image(header_img)
     footer_content = Image(footer_img)
 
    
@@ -117,6 +124,7 @@ def make_letter(text):
     #     line.replace("\n", "<br />")
   
     # story.append(Image("qr.png"))
+    
 
     frame = Frame(doc.leftMargin, doc.bottomMargin, doc.width, doc.height, id='normal')
 
@@ -124,9 +132,15 @@ def make_letter(text):
 
     
     doc.addPageTemplates([template])
- 
+
     
-    doc.build([Paragraph(text.replace("\n", "<br/>"), yourStyle),])
+    
+    p1 = Paragraph(text.replace("\n", "<br/>"), yourStyle)
+    w, h = A4
+    p1.drawOn(doc,50,  h - 200)
+    doc.build(p1)
+    
+    # doc.build([Paragraph(text.replace("\n", "<br/>"), yourStyle),])
     
         
 

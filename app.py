@@ -3,7 +3,8 @@ from email_validator import check
 from utils import send_email_confirmation, send_reference_request 
 from db import * #initiate_db, fetch_data, fetch_data_requests, insert_data_L_to_whome, fetch_auto,insert_data_L_higher_studies, insert_ref_emp,insert_data_L_visa,insert_data_L_other
 from gpt_utils import generate_letter
-from pdf_utils import make_letter
+# from pdf_utils import make_letter
+from pdf_gen import make_pdf
 from utils import gen_confirm_code, process_texts
 from utils import send_email_confirmation
 from db import send_to_db_auth1,send_to_db_auth2,fetch_auth_data,fetch_data_2
@@ -349,7 +350,7 @@ def create_pdf():
         text = request.form['content']
         print("This is the text output from textarea and taken from api :\n",text)
 
-        make_letter(text) 
+        make_pdf(text) 
 
     return render_template("sent_pdf_file.html")
 
@@ -363,4 +364,5 @@ def create_pdf():
 
 
 if __name__ == "__main__":
+
     app.run()
