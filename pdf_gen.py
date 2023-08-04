@@ -34,7 +34,7 @@ def header_and_footer(canvas, doc, header_content, footer_content):
     header(canvas, doc, header_content)
     footer(canvas, doc, footer_content)   
 
-def make_pdf(text):
+def make_pdf(text,cpm):
     styles = getSampleStyleSheet()
     style_2 = ParagraphStyle("style_2", fontName="Times-Roman",
                             fontSize=11.5,
@@ -49,7 +49,7 @@ def make_pdf(text):
                             #spaceAfter=100)       
                             # 
 
-    doc = SimpleDocTemplate("example_flowable_new.pdf",pagesize=A4,
+    doc = SimpleDocTemplate("static\pdf\{cpm}.pdf".format(cpm=cpm),pagesize=A4,
                             rightMargin=2*cm,leftMargin=2*cm,
                             topMargin=2*cm,bottomMargin=2*cm,
                             )                        

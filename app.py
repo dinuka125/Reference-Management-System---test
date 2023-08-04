@@ -1,15 +1,16 @@
-from flask import Flask,render_template,request,flash
+from flask import Flask,render_template,request,flash,send_from_directory
 from email_validator import check
 from utils import send_email_confirmation, send_reference_request 
 from db import * #initiate_db, fetch_data, fetch_data_requests, insert_data_L_to_whome, fetch_auto,insert_data_L_higher_studies, insert_ref_emp,insert_data_L_visa,insert_data_L_other
 from gpt_utils import generate_letter
 # from pdf_utils import make_letter
 from pdf_gen import make_pdf
-from utils import gen_confirm_code, process_texts
+from utils import gen_confirm_code, process_texts,send_final_pdf_to_user
 from utils import send_email_confirmation
 from db import send_to_db_auth1,send_to_db_auth2,fetch_auth_data,fetch_data_2
 import re
 from flask_ckeditor import CKEditor
+import os
 
 
 app = Flask(__name__)
@@ -214,7 +215,7 @@ def auth(type,sender,cpm):
             print(out)
 
         if sender == "web":
-            return render_template("edit_letter.html", letter = out)
+            return render_template("edit_letter.html", letter = out, cpm=cpm)
         
         if sender == "admin":
             return True
@@ -245,7 +246,7 @@ def auth(type,sender,cpm):
             print(out)
 
         if sender == "web":
-            return render_template("edit_letter.html", letter = out)
+            return render_template("edit_letter.html", letter = out, cpm=cpm)
         
         if sender == "admin":
             return True
@@ -277,7 +278,7 @@ def auth(type,sender,cpm):
             print(out) 
 
         if sender == "web":
-            return render_template("edit_letter.html", letter = out)
+            return render_template("edit_letter.html", letter = out, cpm=cpm)
         
         if sender == "admin":
             return True
@@ -313,7 +314,7 @@ def auth(type,sender,cpm):
             return "Unexpected error occured please try again later"    
 
         if sender == "web":
-            return render_template("edit_letter.html", letter = out)
+            return render_template("edit_letter.html", letter = out, cpm=cpm)
         
         if sender == "admin":
             return True
@@ -338,22 +339,50 @@ def auth(type,sender,cpm):
         print(out)
 
         if sender == "web":
-            return render_template("edit_letter.html", letter = out)    
+            return render_template("edit_letter.html", letter = out, cpm=cpm)    
         
         if sender == "admin":
             return True
 
+@app.route('/write/<type>/<sender>/<cpm>', methods=["GET"])
+def write_letter(type, sender,cpm):
+    return render_template("write_letter.html",cpm=cpm)
 
-@app.route('/create_pdf', methods=["POST"])
-def create_pdf():
+
+
+
+@app.route('/create_pdf/<cpm>', methods=["POST", "GET"])
+def create_pdf(cpm):
     if request.method == "POST":
         text = request.form['content']
         print("This is the text output from textarea and taken from api :\n",text)
 
-        make_pdf(text) 
+        make_pdf(text,cpm) # use cpm here / needs to add temp file location in pdfutils
 
-    return render_template("sent_pdf_file.html")
+        workingdir = os.path.abspath(os.getcwd())
+        filepath = 'example_flowable_new.pdf'
+        return render_template("preview.html",cpm=cpm)
 
+        # workingdir = os.path.abspath(os.getcwd())
+        # filepath = workingdir + '/temp/'
+        # return send_from_directory(filepath,"example_flowable_new.pdf")
+    # return render_template("sent_pdf_file.html")
+
+@app.route('/send_to_user/<cpm>', methods=["GET"])
+def send_to_user(cpm):
+    if request.method == "GET":
+        out = get_user_data(cpm)
+        if out:
+            name = out[0][3]
+            email = out[0][5]
+            location = 'static\pdf\{cpm}.pdf'
+            send_final_pdf_to_user(name,cpm,email,location)
+        return render_template("sent_pdf_file.html")
+
+    #to user code configurations 
+
+
+    
 
 
 
