@@ -1,15 +1,18 @@
 import smtplib
 from email.message import EmailMessage
 import ssl
-import random
 import mimetypes
 import os 
 from db import *
+import secrets
+
+
+    
 
 
 def gen_confirm_code():
-    code = random.randint(0,9)
-    return code 
+    token = secrets.token_urlsafe()
+    return token 
 
 
 def send_reference_request(cpm, type):
@@ -101,14 +104,14 @@ def send_final_pdf_to_user(name,cpm,email,location):
 
     Dear {name}
 
-    Thank you for using this service.
-    Please find the attach document you requested.
-    Wish you all the very best for your future endeavours!             
+    We appreciate your use of our service.
 
-                
+    Enclosed, please find the document you requested.
 
-    Thank you and Best Regards
-    Reference management System
+    Wishing you success in your future endeavors.
+
+    Thank you and Best regards,
+    Reference Management System
 
                             
     """.format(name=name))

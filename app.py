@@ -1,14 +1,12 @@
-from flask import Flask,render_template,request,flash,send_from_directory
+from flask import Flask,render_template,request,flash
 from email_validator import check
 from utils import send_email_confirmation, send_reference_request 
-from db import * #initiate_db, fetch_data, fetch_data_requests, insert_data_L_to_whome, fetch_auto,insert_data_L_higher_studies, insert_ref_emp,insert_data_L_visa,insert_data_L_other
+from db import * 
 from gpt_utils import generate_letter
-# from pdf_utils import make_letter
 from pdf_gen import make_pdf
 from utils import gen_confirm_code, process_texts,send_final_pdf_to_user
 from utils import send_email_confirmation, show_user_data
 from db import send_to_db_auth1,send_to_db_auth2,fetch_auth_data,fetch_data_2
-import re
 from flask_ckeditor import CKEditor
 import os
 
@@ -61,6 +59,7 @@ def contact_info(cpm):
         
         else:
             code = gen_confirm_code()
+            print("code is this:", code)
             out = fetch_data_2(cpm)
             if out:
                 name = out[0][3]
