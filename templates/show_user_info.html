@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
-    <title>Email Successfully Verified 😋✔️</title>
+    <title>User info</title>
     <!-- MDB icon -->
     <link rel="icon" href="/static/img/mdb-favicon.ico" type="image/x-icon" />
     <!-- Font Awesome -->
@@ -21,6 +21,10 @@
     <link rel="stylesheet" href="/static/css/mdb.min.css" />
 
     <style>
+      .texy {
+        white-space: pre-wrap;
+      }
+
       .intro {
   height: 100%;
 }
@@ -45,15 +49,23 @@
     <div class="mask d-flex align-items-center h-100 gradient-custom">
       <div class="container">
         <div class="row justify-content-center">
-          <div class="col-12 col-lg-9 col-xl-7">
+          <div class="col-15 col-lg-10 col-xl-9">
             <div class="card">
-              <div class="card-body p-4 p-md-5">
-                <center><h4 class="mb-2"> Email Successfully Verified 😋✔️, Click here for further processing 🫡👉<a href="{{ url_for('type_of_letter_show',cpm=cpm)}}"> Link</a> </h4></center>
-  
+              <div class="card-body p-10 p-md-10">
+                <center><h3 class="mb-2">User Info</h3></center>
+                <script src="https://cdn.ckeditor.com/4.19.1/standard/ckeditor.js"></script>
+                <center>
+                <table>
+                    {% for key, value in user_details.items() %}
+                       <tr>
+                            <th> {{ key }} </th>
+                            <td> &nbsp;&nbsp;&nbsp;&nbsp;{{ value }} </td>
+                       </tr>
+                    {% endfor %}
+                    </table>
+                </center>
                 
-                  
-  
-                </form>
+                
               </div>
             </div>
           </div>

@@ -6,7 +6,7 @@ from gpt_utils import generate_letter
 # from pdf_utils import make_letter
 from pdf_gen import make_pdf
 from utils import gen_confirm_code, process_texts,send_final_pdf_to_user
-from utils import send_email_confirmation
+from utils import send_email_confirmation, show_user_data
 from db import send_to_db_auth1,send_to_db_auth2,fetch_auth_data,fetch_data_2
 import re
 from flask_ckeditor import CKEditor
@@ -362,11 +362,20 @@ def create_pdf(cpm):
         workingdir = os.path.abspath(os.getcwd())
         filepath = 'example_flowable_new.pdf'
         return render_template("preview.html",cpm=cpm)
+    
 
-        # workingdir = os.path.abspath(os.getcwd())
-        # filepath = workingdir + '/temp/'
-        # return send_from_directory(filepath,"example_flowable_new.pdf")
-    # return render_template("sent_pdf_file.html")
+@app.route('/user/<type>/<sender>/<cpm>', methods=["GET"])
+def show_user_info(type,sender,cpm):
+        
+        user_details  = show_user_data(type, cpm)
+
+        return render_template("show_user_info.html", user_details = user_details)
+
+
+
+            
+
+
 
 @app.route('/send_to_user/<cpm>', methods=["GET"])
 def send_to_user(cpm):
